@@ -15,8 +15,53 @@ const cardImages = [
     "assets/images/6.jpg" 
 ];
 
-function shuffle(array){
+/*function shuffle(array){
     array.sort(() => Math.random() - 0.5);
+}*/
+
+function shuffle(array) {
+    for (let i = array.length - 1; i > 0; i--) {
+        let j = Math.floor(Math.random() * (i + 1));
+        let temp = array[i];
+        array[i] = array[j];
+        array[j] = temp;
+    }
+}
+
+let timerElement = document.getElementById("timer");
+let movesElement = document.getElementById("moves");
+let restartBtn = document.getElementById("restart-btn");
+let timer;
+let time = 0, moves = 0;  
+let hasStarted = false;
+let matchedPairs = 0;
+
+function startTimer(){
+    timer = setInterval(() => {
+        time++;
+        timerElement.textContent = `Time: ${time}`;
+    }, 1000);
+}
+
+function stopTimer(){
+    clearInterval(timer);
+}
+
+function incrementMoves(){
+    moves++;
+    movesElement.textContent = `Moves: ${moves}`;
+}
+
+function resetGame(){
+    time = 0;
+    moves = 0;
+    matchedPairs = 0;
+    hasStarted = false;
+    timerElement.textContent = "Time: 0";
+    movesElement.textContent = "Moves: 0";
+    clearInterval(timer);
+    cardsContainer.innerHTML = "";
+    createCards();
 }
 
 function createCards(){
@@ -47,6 +92,13 @@ function flipCard() {
 
     this.classList.add('flipped');
 
+    if(!hasStarted){
+        hasStarted = true;
+        startTimer();
+    }
+
+    incrementMoves();
+
     if (!hasFlippedCard) {
         hasFlippedCard = true;
         firstCard = this;
@@ -66,6 +118,11 @@ function checkForMatch() {
 function disableCards() {
     firstCard.removeEventListener('click', flipCard);
     secondCard.removeEventListener('click', flipCard);
+    matchedPairs++;
+    
+    if(matchedPairs == cardImages.length / 2){
+        stopTimer();
+    }
 
     resetBoard();
 }
@@ -84,3 +141,4 @@ function resetBoard() {
 }
 
 createCards();
+restartBtn.addEventListener('click', resetGame);
