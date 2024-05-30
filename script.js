@@ -36,6 +36,19 @@ let time = 0, moves = 0;
 let hasStarted = false;
 let matchedPairs = 0;
 
+const flipSound = document.getElementById("flip-sound");
+const matchSound = document.getElementById("match-sound");
+const winSound = document.getElementById("win-sound");
+//const backgroundMusic = document.getElementById("background-music");
+//const toggleMusicBtn = document.getElementById("toggle-music-btn");
+
+flipSound.voume = 0.5;
+
+function playSound(sound){
+    sound.currentTime = 0;
+    sound.play();
+}
+
 function startTimer(){
     timer = setInterval(() => {
         time++;
@@ -91,13 +104,14 @@ function flipCard() {
     if (this === firstCard) return;
 
     this.classList.add('flipped');
+    playSound(flipSound);
 
     if(!hasStarted){
         hasStarted = true;
         startTimer();
     }
 
-    incrementMoves();
+    //incrementMoves(); calling the function here increments moves for every card flip
 
     if (!hasFlippedCard) {
         hasFlippedCard = true;
@@ -106,13 +120,24 @@ function flipCard() {
     }
 
     secondCard = this;
+    incrementMoves(); // increment moves here, after the second card is flipped
     checkForMatch();
 }
 
 function checkForMatch() {
     const isMatch = firstCard.querySelector('.card-image').src === secondCard.querySelector('.card-image').src;
 
-    isMatch ? disableCards() : unflipCards();
+    //isMatch ? disableCards() : unflipCards();
+    if(isMatch){
+        disableCards();
+        //playSound(matchSound);
+        setTimeout(() => {
+            playSound(matchSound);
+        }, 1500);
+    }
+    else{
+        unflipCards();
+    }
 }
 
 function disableCards() {
@@ -122,6 +147,10 @@ function disableCards() {
     
     if(matchedPairs == cardImages.length / 2){
         stopTimer();
+        //playSound(winSound); play the win sound after some time, not immediately
+        setTimeout(() => {
+            playSound(winSound);
+        }, 2800);
     }
 
     resetBoard();
