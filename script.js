@@ -6,18 +6,22 @@ const cardImages = [
     "assets/images/3.jpg", 
     "assets/images/4.jpg", 
     "assets/images/5.jpg", 
-    "assets/images/6.jpg", 
+    "assets/images/6.jpg",
+    "assets/images/7.jpg",
+    "assets/images/8.jpg",
+    "assets/images/9.jpg",
+    "assets/images/10.jpg", 
     "assets/images/1.jpg", 
     "assets/images/2.jpg", 
     "assets/images/3.jpg", 
     "assets/images/4.jpg", 
     "assets/images/5.jpg", 
-    "assets/images/6.jpg" 
+    "assets/images/6.jpg",
+    "assets/images/7.jpg",
+    "assets/images/8.jpg",
+    "assets/images/9.jpg",
+    "assets/images/10.jpg" 
 ];
-
-/*function shuffle(array){
-    array.sort(() => Math.random() - 0.5);
-}*/
 
 function shuffle(array) {
     for (let i = array.length - 1; i > 0; i--) {
@@ -35,14 +39,15 @@ let timer;
 let time = 0, moves = 0;  
 let hasStarted = false;
 let matchedPairs = 0;
+let numCards;
 
 const flipSound = document.getElementById("flip-sound");
 const matchSound = document.getElementById("match-sound");
 const winSound = document.getElementById("win-sound");
-//const backgroundMusic = document.getElementById("background-music");
-//const toggleMusicBtn = document.getElementById("toggle-music-btn");
 
-flipSound.voume = 0.5;
+flipSound.voume = 0.4;
+matchSound.volume = 0.5;
+winSound.volume = 0.5;
 
 function playSound(sound){
     sound.currentTime = 0;
@@ -78,11 +83,42 @@ function resetGame(){
 }
 
 function createCards(){
-    shuffle(cardImages);
+    numCards = parseInt(localStorage.getItem("numCards"));
+    const selectedImages = []; // this holds the selected images
 
-    cardImages.forEach(image => {
+    while(selectedImages.length < numCards){
+        const randomImage = cardImages[Math.floor(Math.random() * cardImages.length)]; //Select a random image from cardImages
+
+        if(!selectedImages.includes(randomImage)){ //If the image is not already in the selectedImages, add it twice to form a pair
+            selectedImages.push(randomImage);
+            selectedImages.push(randomImage);
+        }
+    }
+
+    shuffle(selectedImages); //Shuffle the array to randomize the card order
+
+    const gridSizes = {
+        12: {columns: 4, rows: 3},
+        16: {columns: 4, rows: 4},
+        20: {columns: 5, rows: 4}
+    };
+
+    const totalWidth = 830;
+    const totalHeight = 440;
+    const gap = 10;
+
+    const cardWidth = (totalWidth - (gridSizes[numCards].columns - 1) * gap) / gridSizes[numCards].columns;
+    const cardHeight = (totalHeight - (gridSizes[numCards].rows - 1) * gap) / gridSizes[numCards].rows;
+
+    cardsContainer.style.gridTemplateColumns = `repeat(${gridSizes[numCards].columns}, ${cardWidth}px)`;
+    cardsContainer.style.gridTemplateRows = `repeat(${gridSizes[numCards].rows}, ${cardHeight}px)`;
+    cardsContainer.style.gap = `${gap}px`;
+
+    selectedImages.forEach(image => {
         const card = document.createElement('div');
         card.classList.add('card');
+        card.style.width = `${cardWidth}px`;
+        card.style.height = `${cardHeight}px`;
         card.innerHTML = `
         <div class="card-inner">
             <div class="card-front">
@@ -130,7 +166,6 @@ function checkForMatch() {
     //isMatch ? disableCards() : unflipCards();
     if(isMatch){
         disableCards();
-        //playSound(matchSound);
         setTimeout(() => {
             playSound(matchSound);
         }, 1500);
@@ -145,9 +180,8 @@ function disableCards() {
     secondCard.removeEventListener('click', flipCard);
     matchedPairs++;
     
-    if(matchedPairs == cardImages.length / 2){
+    if(matchedPairs == numCards / 2){
         stopTimer();
-        //playSound(winSound); play the win sound after some time, not immediately
         setTimeout(() => {
             playSound(winSound);
         }, 2800);
@@ -167,6 +201,13 @@ function unflipCards() {
 
 function resetBoard() {
     [hasFlippedCard, firstCard, secondCard] = [false, null, null];
+}
+
+
+function updateStats(){
+    let stats = JSON.parse(localStorage.getItem("stats")) || [] ;
+    stats.push(`Time: ${time}, Moves: ${moves}`);
+    localStorage.setItem("stats", JSON.stringify(stats));
 }
 
 createCards();

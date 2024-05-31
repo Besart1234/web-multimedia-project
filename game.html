@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <title>Document</title>
+</head>
+<body>
+    <header class="header">
+        <span class="header-title">Cards Memory Game</span>
+        <a href="stats.html" class="header-stats">Stats</a>
+    </header>
+    
+    <div class="game-container">
+        <div class="cards-grid"></div>
+        <div class="game-info">
+            <span id="timer">Time: 0</span>
+            <span id="moves">Moves: 0</span>
+        </div>
+    </div>
+
+    <audio id="flip-sound" src="assets/sounds/flip.mp3"></audio>
+    <audio id="match-sound" src="assets/sounds/match.mp3"></audio>
+    <audio id="win-sound" src="assets/sounds/win.mp3"></audio>
+
+    <button id="restart-btn">Restart Game</button>
+    
+    <script src="script.js"></script>
+</body>
+</html>

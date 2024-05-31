@@ -3,28 +3,27 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Memory Game</title>
     <link rel="stylesheet" href="style.css">
-    <title>Document</title>
 </head>
 <body>
-    <header class="header">Cards Memory Game</header>
-    
-    <div class="game-container">
-        <div class="cards-grid"></div>
-        <div class="game-info">
-            <span id="timer">Time: 0</span>
-            <span id="moves">Moves: 0</span>
-        </div>
+    <header class="header">
+        <span class="header-title">Cards Memory Game</span>
+        <a href="stats.html" class="header-stats">Stats</a>
+    </header>
+
+    <div class="home-container">
+        <h2>Select difficulty level</h2>
+        <button onclick="startGame(12)">12 Cards (6 Pairs)</button>
+        <button onclick="startGame(16)">16 Cards (8 Pairs)</button>
+        <button onclick="startGame(20)">20 Cards (10 Pairs)</button>
     </div>
 
-    <audio id="flip-sound" src="assets/sounds/flip.mp3"></audio>
-    <audio id="match-sound" src="assets/sounds/match.mp3"></audio>
-    <audio id="win-sound" src="assets/sounds/win.mp3"></audio>
-    <!--<audio id="background-music" src=""></audio>-->
-    <!--<button id="toggle-music-btn">Toggle Music</button>-->
-
-    <button id="restart-btn">Restart Game</button>
-    
-    <script src="script.js"></script>
+    <script>
+        function startGame(numCards){
+            localStorage.setItem("numCards", numCards);
+            window.location.href = "game.html";
+        }
+    </script>
 </body>
 </html>
