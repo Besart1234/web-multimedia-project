@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <title>Memory Game Stats</title>
+</head>
+<body>
+    <header class="header">
+        <span class="header-title">Game Statistics</span>
+        <a href="index.html" class="header-stats">Home</a>
+    </header>
+    
+    <div class="stats-container">
+        <h2>Game Stats</h2>
+        <div id="stats"></div>
+    </div>
+
+    <script>
+        function loadStats(){
+            let stats = JSON.parse(localStorage.getItem("stats")) || []; //Retrieves Stats from Local Storage
+            let statsDiv = document.getElementById("stats");
+            if(stats.length === 0){ //If no stats are found, display a message. Else, build the table.
+                statsDiv.innerHTML = "No stats available";
+            }
+            else{
+                statsDiv.innerHTML = 
+                `<table>
+                    <thead>
+                        <tr>
+                            <th>Time</th>
+                            <th>Moves</th>
+                            <th>Misses</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        ${stats.map(stat => {
+                            const [time, moves, misses] = stat.split(", ");
+                            return `<tr>
+                                <td>${time.split(": ")[1]}</td>
+                                <td>${moves.split(": ")[1]}</td>
+                                <td>${misses.split(": ")[1]}</td>    
+                            </tr>`;
+                        }).join("")}
+                    </tbody>
+                </table>`;
+            }
+        }
+
+        window.onload = loadStats;
+    </script>
+</body>
+</html>

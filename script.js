@@ -36,7 +36,7 @@ let timerElement = document.getElementById("timer");
 let movesElement = document.getElementById("moves");
 let restartBtn = document.getElementById("restart-btn");
 let timer;
-let time = 0, moves = 0;  
+let time = 0, moves = 0, misses = 0;  
 let hasStarted = false;
 let matchedPairs = 0;
 let numCards;
@@ -70,9 +70,14 @@ function incrementMoves(){
     movesElement.textContent = `Moves: ${moves}`;
 }
 
+function incrementMisses(){
+    misses++;
+}
+
 function resetGame(){
     time = 0;
     moves = 0;
+    misses = 0;
     matchedPairs = 0;
     hasStarted = false;
     timerElement.textContent = "Time: 0";
@@ -171,6 +176,7 @@ function checkForMatch() {
         }, 1500);
     }
     else{
+        incrementMisses();
         unflipCards();
     }
 }
@@ -185,6 +191,7 @@ function disableCards() {
         setTimeout(() => {
             playSound(winSound);
         }, 2800);
+        updateStats();
     }
 
     resetBoard();
@@ -206,7 +213,7 @@ function resetBoard() {
 
 function updateStats(){
     let stats = JSON.parse(localStorage.getItem("stats")) || [] ;
-    stats.push(`Time: ${time}, Moves: ${moves}`);
+    stats.push(`Time: ${time}, Moves: ${moves}, Misses: ${misses}`);
     localStorage.setItem("stats", JSON.stringify(stats));
 }
 
