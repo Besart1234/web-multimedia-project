@@ -3,23 +3,76 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Memory Game</title>
     <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://unpkg.com/swiper/swiper-bundle.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+    <title>Memory Game</title>
 </head>
 <body>
+    <div id="preloader"></div>
+
     <header class="header">
         <span class="header-title">Cards Memory Game</span>
         <a href="stats.html" class="header-stats">Stats</a>
     </header>
 
     <div class="home-container">
-        <h2>Select difficulty level</h2>
-        <button onclick="startGame(12)">12 Cards (6 Pairs)</button>
-        <button onclick="startGame(16)">16 Cards (8 Pairs)</button>
-        <button onclick="startGame(20)">20 Cards (10 Pairs)</button>
+        <div class="home-content">
+            <h2>Select difficulty level</h2>
+            <button onclick="startGame(12)">12 Cards (6 Pairs)</button>
+            <button onclick="startGame(16)">16 Cards (8 Pairs)</button>
+            <button onclick="startGame(20)">20 Cards (10 Pairs)</button>
+        </div>
+        <!------------------------------------------------------------>
+        <div class="swiper-container">
+            <div class="swiper-wrapper">
+                <div class="swiper-slide">
+                    <p>Welcome to the memory game!</p> 
+                    <div><img src="assets/images/welcome.png" alt=""></div>
+                </div>
+                <div class="swiper-slide">
+                    <p>Tip: Try to remember the positions of the cards.</p> 
+                    <div><img src="assets/images/memory.png" alt=""></div>
+                </div>
+                <div class="swiper-slide">
+                    <p>Instructions: Match all pairs to win the game.</p> 
+                    <div><img src="assets/images/match.png" alt=""></div>
+                </div>
+            </div>
+            <div class="swiper-pagination"></div>
+            <div class="swiper-button-next"></div>
+            <div class="swiper-button-prev"></div>
+        </div>
     </div>
 
+    <script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
     <script>
+        let swiper = new Swiper(".swiper-container", {
+            navigation: {
+                nextEl: ".swiper-button-next",
+                prevEl: ".swiper-button-prev"
+            },
+            pagination: {
+                el: ".swiper-pagination",
+                clickable: true
+            },
+            autoplay: {
+                delay: 3000,
+                disableOnInteraction: false
+            },
+            loop: true
+        });
+
+        let loader = document.getElementById("preloader");
+
+        window.addEventListener("load", () => {
+            setTimeout(() => {
+                loader.style.display = "none";
+            }, 600);
+        });
+
         function startGame(numCards){
             localStorage.setItem("numCards", numCards);
             window.location.href = "game.html";

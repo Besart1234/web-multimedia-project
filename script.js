@@ -45,9 +45,9 @@ const flipSound = document.getElementById("flip-sound");
 const matchSound = document.getElementById("match-sound");
 const winSound = document.getElementById("win-sound");
 
-flipSound.voume = 0.4;
-matchSound.volume = 0.5;
-winSound.volume = 0.5;
+flipSound.volume = 0.2;
+matchSound.volume = 0.2;
+winSound.volume = 0.3;
 
 function playSound(sound){
     sound.currentTime = 0;
@@ -95,8 +95,7 @@ function createCards(){
         const randomImage = cardImages[Math.floor(Math.random() * cardImages.length)]; //Select a random image from cardImages
 
         if(!selectedImages.includes(randomImage)){ //If the image is not already in the selectedImages, add it twice to form a pair
-            selectedImages.push(randomImage);
-            selectedImages.push(randomImage);
+            selectedImages.push(randomImage, randomImage);
         }
     }
 
@@ -193,7 +192,6 @@ function disableCards() {
         }, 2800);
         updateStats();
     }
-
     resetBoard();
 }
 
@@ -216,6 +214,14 @@ function updateStats(){
     stats.push(`Time: ${time}, Moves: ${moves}, Misses: ${misses}`);
     localStorage.setItem("stats", JSON.stringify(stats));
 }
+
+let loader = document.getElementById("preloader");
+
+window.addEventListener("load", () => {
+    setTimeout(() => { //used the setTimeout here because otherwise the preloader was almost impossible to notice since the page loads too fast
+        loader.style.display = "none";
+    }, 600);
+});
 
 createCards();
 restartBtn.addEventListener('click', resetGame);

@@ -4,6 +4,10 @@
     box-sizing: border-box;
 }
 
+body {
+    font-family: "Montserrat", sans-serif;
+}
+
 .header{
     display: flex;
     justify-content: space-between;
@@ -27,7 +31,11 @@
 
 /*Stats container styles*/
 .stats-container {
-    margin: 20px auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    margin: 80px auto;
     padding: 20px;
     max-width: 600px;
     background: white;
@@ -40,6 +48,10 @@
     color: #333;
     margin-bottom: 20px;
     font-size: 28px;
+}
+
+#stats {
+   overflow: auto; 
 }
 
 table {
@@ -82,22 +94,103 @@ button:hover {
     background-color: #45a049;
 }
 
+#clear-stats {
+    display: block;
+    margin: 20px auto;
+    padding: 10px 20px;
+    background-color: #ff0000;
+    color: #ffffff;
+    font-weight: bold;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+#clear-stats:active {
+    background-color: #ff000096;
+}
+
 /*Home container styles*/
 .home-container {
     display: flex;
-    flex-direction: column;
     align-items: center;
     justify-content: center;
     height: calc(100vh - 60px);
+    padding: 20px;
 }
 
+.home-content {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 40%;
+    margin-right: 20px;
+}
+
+/*slider styles*/
+.swiper-container {
+    width: 50%;
+    height: 300px;
+    margin: 20px auto;
+    background-color: #f0f0f0;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+    position: relative;
+}
+
+.swiper-wrapper {
+    display: flex;
+}
+
+.swiper-slide {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+    text-align: center;
+    font-size: 1.2em;
+    color: #333;
+    height: 100%;
+    width: 100%;
+    padding: 20px;
+}
+
+.swiper-slide p {
+    margin-bottom: 40px;
+}
+
+.swiper-slide img {
+    width: 20%;
+    height: auto;
+}
+
+.swiper-button-next, .swiper-button-prev {
+    color: #333;
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 30px;
+    height: 30px;
+}
+
+.swiper-pagination {
+    bottom: 10px;
+    text-align: center;
+}
+
+.swiper-pagination-bullet-active {
+    background: #333;
+}
+/*slider styles - end*/
 .game-container {
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
     padding: 20px;
-    height: calc(100vh - 60px);
+    height: calc(100vh - 150px);
 }
 
 .cards-grid{
@@ -115,6 +208,7 @@ button:hover {
     flex-direction: column;
     align-items: center;
     justify-content: center;
+    margin-top: 10px;
 }
 
 .card{
@@ -175,10 +269,13 @@ button:hover {
     
 }
 
-.stats-container {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    height: calc(100vh - 60px);
+#preloader {
+    background: #000 url("assets/images/preloader.gif") no-repeat center;
+    background-size: 15%;
+    height: 100vh;
+    width: 100%;
+    position: fixed;
+    z-index: 100;
 }
+
+

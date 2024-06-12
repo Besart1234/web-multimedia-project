@@ -4,9 +4,14 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
     <title>Memory Game Stats</title>
 </head>
 <body>
+    <div id="preloader"></div>
+
     <header class="header">
         <span class="header-title">Game Statistics</span>
         <a href="index.html" class="header-stats">Home</a>
@@ -17,7 +22,17 @@
         <div id="stats"></div>
     </div>
 
+    <button id="clear-stats">Clear stats</button>
+
     <script>
+        let loader = document.getElementById("preloader");
+
+        window.addEventListener("load", () => {
+            setTimeout(() => {
+                loader.style.display = "none";
+            }, 600);
+        });
+
         function loadStats(){
             let stats = JSON.parse(localStorage.getItem("stats")) || []; //Retrieves Stats from Local Storage
             let statsDiv = document.getElementById("stats");
@@ -47,6 +62,11 @@
                 </table>`;
             }
         }
+
+        document.getElementById("clear-stats").addEventListener("click", () => {
+            localStorage.removeItem("stats");
+            loadStats(); //here this function is called to refresh the displayed stats
+        }); 
 
         window.onload = loadStats;
     </script>
