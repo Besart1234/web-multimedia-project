@@ -126,7 +126,7 @@ function createCards(){
         card.innerHTML = `
         <div class="card-inner">
             <div class="card-front">
-                <img class="card-image" src="${image}" alt="Card Image">
+                <img class="card-image" src="${image}" alt="Card Image" loading="lazy">
             </div>
             <div class="card-back"></div>
         </div>`; 
